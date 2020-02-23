@@ -15,6 +15,8 @@ import { TerceroService } from 'app/services/tercero.service';
 })
 export class FacturaComponent implements OnInit {
 
+  paramconfigmaxstock = 10;
+
   mFactura = new FacturaModel();
   mCliente = new ClienteModel();
   mProdcuto = new ProductoModelFactura();
@@ -24,13 +26,17 @@ export class FacturaComponent implements OnInit {
   mTotal = 0;
   mCalculoIva = 0;
   nomprod = '';
+  dataprueba: string[] = [];
+  ProductosBajoStock: any[];
+  
 
   constructor(private productoService: ProductoService,
     private terceroService: TerceroService,
-    private notify: NotificationsService) { }
+    private notify: NotificationsService) {
+
+    }
 
   ngOnInit() {
-    this.mProdcuto.PRId
   }
     
 // #consultas
@@ -56,12 +62,16 @@ loadProducto(pFilter){
   if (pFilter == '' || pFilter == undefined) {
     this.cleanProducto();
   }else{
+    
     this.productoService.getProductosByFilter(pFilter).subscribe(
       result=>{
         this.mProductosFilter = result.datos;
+          this.dataprueba = [];
+          result.datos.forEach(prod => {
+          this.dataprueba.push('Cod: ' + prod.prId + ' Nombre: '+ prod.prNombre);
+        });
       }
    )
-
     /* this.mProdcuto.PRNombre = 'Arroz';
     this.mProdcuto.PRId = 1;
     this.mProdcuto.SaldoGeneral = 10;
@@ -71,6 +81,15 @@ loadProducto(pFilter){
     this.mCalculoIva = (this.mProdcuto.PRPrecio * this.mProdcuto.PorcentajeIva) / 100; */
   } 
 }
+
+loadSaldos(pIdProd: number){
+  this.productoService.getProductoById(pIdProd).subscribe(
+    result=>{
+      console.log(result);
+    }
+  )
+}
+
 // #endconsultas
   
 
@@ -80,7 +99,6 @@ addProducto(){
     
     return;
   };
-
   var pFacturaDetalle = new FacturaDetalleModelFactuacion();
   pFacturaDetalle.FDCantidad = this.mCant;
   pFacturaDetalle.FDCodProducto = this.mProdcuto.PRId;
@@ -92,6 +110,18 @@ addProducto(){
   pFacturaDetalle.FDNetoItem = (this.mProdcuto.PRPrecio * this.mCant) + this.mCalculoIva; 
   pFacturaDetalle.FDItem = this.mFacturaDetalle.length+1;
   this.mFacturaDetalle.push(pFacturaDetalle);
+  if ((this.mProdcuto.SaldoGeneral - pFacturaDetalle.FDCantidad) <= this.paramconfigmaxstock) {
+    var prodbajostock = {
+      proveedor: 'nelsonajaca@gmail.com',
+      nomproveedor: 'Nelson',
+      nomprod: this.mProdcuto.PRNombre
+    }
+    this.ProductosBajoStock.push(prodbajostock);
+    localStorage.setItem('ProductosBajoStock', JSON.stringify(this.ProductosBajoStock));
+  }
+
+
+
 }
 
 calcularTotal(){
@@ -109,6 +139,22 @@ cleanProducto(){
 
 cleanCliente(){
   this.mCliente = new ClienteModel();  
+}
+
+saveFactura(){
+
+  if (this.validaCrearFactura()) {
+   //Insert factura
+   var prodbajostock = JSON.parse(localStorage.getItem('ProductosBajoStock'));
+   prodbajostock.forEach(element => {
+    this.productoService.notificarProveedor(element.proveedor,element.nomprod,element.nomproveedor).subscribe(
+      result=>{
+  
+      }
+    )  
+   });   
+  }
+  
 }
 // #endfunciones
 

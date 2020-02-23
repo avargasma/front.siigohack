@@ -31,10 +31,10 @@
               <div class="row">
                 <div class="col-md-8">
                   <dx-autocomplete placeholder="Digite cualquier parametro de búsqueda"                    
-                    [(value)]="mProdcuto.PRNombre" [dataSource]="mProductosFilter"
+                    [(value)]="nomprod" [dataSource]="dataprueba"
                     [minSearchLength]="2"
                     [searchTimeout]="500"
-                    (onValueChanged)="loadProducto(mProdcuto.PRNombre)">
+                    (onValueChanged)="loadProducto(nomprod)">
                   </dx-autocomplete>
                 </div>
                 <div class="col-md-4">
@@ -185,7 +185,7 @@
               <div class="dx-field-value">                  
                   <dx-button style="margin-right: 2px !important;" icon="save" type="success"
                   text="Guardar"
-                   (onClick)="plusClick()">
+                   (onClick)="saveFactura()">
                   </dx-button>                
               </div>
           

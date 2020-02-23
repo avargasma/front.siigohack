@@ -21,4 +21,12 @@ export class ProductoService {
     return this.http.get<ResultModel>(`${environment.apiUrl}Producto/Autocomplete?pValorBusqueda=${pValorBusqueda}`);     
   }
 
+  public getSaldosProd(pIdProd: number): Observable<ResultModel> {
+    return this.http.get<ResultModel>(`${environment.apiUrl}Producto/GetSaldoGlobal?pID=${pIdProd}`);     
+  }
+
+  public notificarProveedor(pMail: string, pNombreProducto: string, pNombreProveedor: string): Observable<ResultModel> {
+    return this.http.get<ResultModel>(`${environment.apiUrl}Notificacion/SendMailProveedor?pMail=${pMail}&pNombreProducto=${pNombreProducto}pNombreProveedor=${pNombreProveedor}`);     
+  }
+
 }
