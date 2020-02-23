@@ -4,39 +4,26 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-danger">
-            <p class="card-category">Datos factura</p>
+            <p class="card-category">Registrar compra</p>
           </div>
           <div class="card-body">
             <form #f="ngForm">
-
-              <h5 style="margin-bottom: 0px;">Datos del cliente</h5>
-              <div class="row" style="    margin-bottom: 10px;">
+              <h5 style="margin-bottom: 0px;">Proveedor</h5>
+              <div class="row" style=" margin-bottom: 10px;">
                 <div class="col-md-4">
                     <dx-number-box
-                    #txtDocCliente
-                    [(value)]="mFactura.FCCliente" [showClearButton]="true"
-                    placeholder="Documento del cliente" valueChangeEvent="keyup"
-                    (onFocusOut)="loadClient(mFactura.FCCliente)"
+                    [showClearButton]="true"
+                    placeholder="Nit proveedor" valueChangeEvent="keyup"                    
                       format="###################"
                       ></dx-number-box>
                 </div>
-                <div class="col-md-4">
-                  <dx-text-box [disabled]="true" [(value)]="mCliente.TRPNombre"></dx-text-box>
-                </div>
-                <div class="col-md-4">
-                  <dx-text-box [disabled]="true" [(value)]="mCliente.TRPApellido"></dx-text-box>
-                </div>
+                <div class="col-md-8">
+                  <dx-text-box [disabled]="true" placeholder="Razon social"  [(value)]="mProveedor.TRRazonSocial"></dx-text-box>
+                </div>                
               </div>
               <h5 style="margin-bottom: 0px;">Producto</h5>
               <div class="row">
-                <div class="col-md-8">
-                  <dx-autocomplete placeholder="Digite cualquier parametro de búsqueda"                    
-                    [(value)]="mProdcuto.PRNombre" [dataSource]="mProductosFilter"
-                    #txtProdName
-                    (onValueChanged)="loadProducto(mProdcuto.PRNombre)">
-                  </dx-autocomplete>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="dx-field">
                     <div class="dx-field-label">Código</div>
                     <div class="dx-field-value">
@@ -46,10 +33,18 @@
                       </dx-text-box>
                     </div>
                   </div>
+                </div>                
+                <div class="col-md-6">
+                  <dx-text-box
+                    [(value)]="mProdcuto.PRNombre"
+                    [disabled]="true"
+                    placeholder="Descripción producto"
+                    >
+                    </dx-text-box>
                 </div>
               </div>
               <div class="row"  style="margin-top: .5em !important;">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="dx-field">
                     <div class="dx-field-label">Saldo sucursal</div>
                     <div class="dx-field-value">
@@ -60,7 +55,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="dx-field">
                     <div class="dx-field-label">Saldo general</div>
                     <div class="dx-field-value">
@@ -71,33 +66,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="dx-field">
-                    <div class="dx-field-label">Iva(%)</div>
-                    <div class="dx-field-value">                      
-                      <dx-text-box
-                      [(value)]="mProdcuto.PorcentajeIva"
-                      [disabled]="true">
-                      </dx-text-box>
-                    </div>
-                  </div>
-                </div>
               </div>
-              <hr>
-              <div class="row"  style="margin-top: .5em !important;">                
-                <div class="col-md-4">
-                  <div class="dx-field">
-                    <div class="dx-field-label">Precio Uni.</div>
-                    <div class="dx-field-value">
-                      <dx-number-box                      
-                        (onFocusOut)="calcularIva()"
-                        [(value)]="mProdcuto.PRPrecio"
-                        format="$ #,##0.##"
-                      ></dx-number-box>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
+                <div class="row"  style="margin-top: .5em !important;">
+                <div class="col-md-6">
                   <div class="dx-field">
                     <div class="dx-field-label">Cant.</div>
                     <div class="dx-field-value">
@@ -109,14 +80,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="dx-field">
-                    <div class="dx-field-label">Total</div>
+                    <div class="dx-field-label">Precio Uni.</div>
                     <div class="dx-field-value">
-                      <dx-number-box
-                      [(value)]="mTotal"                
-                      [disabled]="true"
-                      format="$ #,##0.##"
+                      <dx-number-box                      
+                        (onFocusOut)="calcularIva()"
+                        [(value)]="mProdcuto.PRPrecio"
+                        format="$ #,##0.##"
                       ></dx-number-box>
                     </div>
                   </div>
@@ -151,7 +122,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-danger">
-            <p class="card-category">Factura detalle</p>
+            <p class="card-category">Items</p>
           </div>
           <div class="card-body">
             
