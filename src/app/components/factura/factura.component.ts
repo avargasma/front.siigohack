@@ -83,9 +83,11 @@ loadProducto(pFilter){
 }
 
 loadSaldos(pIdProd: number){
+  console.log(pIdProd);
   this.productoService.getProductoById(pIdProd).subscribe(
     result=>{
-      console.log(result);
+      this.mProdcuto.SaldoGeneral = result.datos['prSaldoGlobal'];
+      this.mProdcuto.SaldoSucursal = result.datos['prSaldo'];      
     }
   )
 }
