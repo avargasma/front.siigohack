@@ -1,0 +1,199 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <p class="card-category">Datos factura</p>
+          </div>
+          <div class="card-body">
+            <form #f="ngForm">
+
+              <h5 style="margin-bottom: 0px;">Datos del cliente</h5>
+              <div class="row" style="    margin-bottom: 10px;">
+                <div class="col-md-4">
+                    <dx-number-box
+                    [(value)]="mFactura.FCCliente" [showClearButton]="true"
+                    placeholder="Documento del cliente" valueChangeEvent="keyup"
+                    (onFocusOut)="loadClient(mFactura.FCCliente)"
+                      format="###################"
+                      ></dx-number-box>
+                </div>
+                <div class="col-md-4">
+                  <dx-text-box [disabled]="true" [(value)]="mCliente.TRPNombre"></dx-text-box>
+                </div>
+                <div class="col-md-4">
+                  <dx-text-box [disabled]="true" [(value)]="mCliente.TRPApellido"></dx-text-box>
+                </div>
+              </div>
+              <h5 style="margin-bottom: 0px;">Producto</h5>
+              <div class="row">
+                <div class="col-md-8">
+                  <dx-autocomplete placeholder="Digite cualquier parametro de búsqueda"                    
+                    [(value)]="mProdcuto.PRNombre" [dataSource]="mProductosFilter"
+                    (onValueChanged)="loadProducto(mProdcuto.PRNombre)">
+                  </dx-autocomplete>
+                </div>
+                <div class="col-md-4">
+                  <div class="dx-field">
+                    <div class="dx-field-label">Código</div>
+                    <div class="dx-field-value">
+                      <dx-text-box
+                      [(value)]="mProdcuto.PRId"
+                      (onValueChanged)="loadProducto(mProdcuto.PRId)">
+                      </dx-text-box>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row"  style="margin-top: .5em !important;">
+                <div class="col-md-4">
+                  <div class="dx-field">
+                    <div class="dx-field-label">Saldo sucursal</div>
+                    <div class="dx-field-value">
+                      <dx-text-box
+                      [(value)]="mProdcuto.SaldoSucursal"
+                      [disabled]="true">
+                      </dx-text-box>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="dx-field">
+                    <div class="dx-field-label">Saldo general</div>
+                    <div class="dx-field-value">
+                      <dx-text-box
+                      [(value)]="mProdcuto.SaldoGeneral"
+                      [disabled]="true">
+                      </dx-text-box>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="dx-field">
+                    <div class="dx-field-label">Iva(%)</div>
+                    <div class="dx-field-value">                      
+                      <dx-text-box
+                      [(value)]="mProdcuto.PorcentajeIva"
+                      [disabled]="true">
+                      </dx-text-box>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row"  style="margin-top: .5em !important;">                
+                <div class="col-md-4">
+                  <div class="dx-field">
+                    <div class="dx-field-label">Precio Uni.</div>
+                    <div class="dx-field-value">
+                      <dx-number-box                      
+                        (onFocusOut)="calcularIva()"
+                        [(value)]="mProdcuto.PRPrecio"
+                        format="$ #,##0.##"
+                      ></dx-number-box>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="dx-field">
+                    <div class="dx-field-label">Cant.</div>
+                    <div class="dx-field-value">
+                      <dx-number-box    
+                      (onFocusOut)="calcularTotal()"
+                      [(value)]="mCant"
+                      format="##########"
+                      ></dx-number-box>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="dx-field">
+                    <div class="dx-field-label">Total</div>
+                    <div class="dx-field-value">
+                      <dx-number-box
+                      [(value)]="mTotal"                
+                      [disabled]="true"
+                      format="$ #,##0.##"
+                      ></dx-number-box>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="dx-field">
+                <div class="dx-field-value">                  
+                    <dx-button icon="plus"
+                    text="Agregar"
+                    type="success"
+                     (onClick)="addProducto()">
+                    </dx-button>
+                    <dx-button style="margin-right: 2px !important;"
+                      icon="fa fa-undo"
+                      text="Limpiar"
+                      type="danger"
+                      (onClick)="sendClick()">
+                  </dx-button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <p class="card-category">Factura detalle</p>
+          </div>
+          <div class="card-body">
+            
+            <dx-data-grid id="gridContainer" [dataSource]="mFacturaDetalle" 
+            [remoteOperations]="false" [allowColumnReordering]="true" 
+            [rowAlternationEnabled]="true" [showBorders]="true">
+
+              <dxo-paging [pageSize]="10"></dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]"></dxo-pager>
+              <dxi-column dataField="FDItem" caption="#" sortOrder="asc"></dxi-column>
+              <dxi-column dataField="FDCodProducto" caption="Producto"></dxi-column>
+              <dxi-column dataField="FDDescription" caption="Descripción"></dxi-column>
+              <dxi-column dataField="FDCantidad" caption="Cant"></dxi-column>
+              <dxi-column dataField="FDPrecioUnitario" dataType="number" format="currency" alignment="right" caption="Precio Unitario"></dxi-column>
+              <dxi-column dataField="FDSubtotal" dataType="number" format="currency" alignment="right" caption="Subtotal"></dxi-column>
+              <dxi-column dataField="TotalIva" dataType="number" format="currency" alignment="right" caption="Iva"></dxi-column>
+              <dxi-column dataField="FDNetoItem" dataType="number" format="currency" alignment="right" caption="Total"></dxi-column>
+
+              <dxo-summary>
+                <dxi-total-item
+                    column="FDNetoItem"
+                    summaryType="sum"
+                    valueFormat="currency">
+                </dxi-total-item>
+            </dxo-summary>
+          </dx-data-grid>
+
+          
+            <div class="dx-field" style="margin-top: 1em !important;">
+              <div class="dx-field-value">                  
+                  <dx-button style="margin-right: 2px !important;" icon="save" type="success"
+                  text="Guardar"
+                   (onClick)="plusClick()">
+                  </dx-button>                
+              </div>
+          
+          </div>         
+            
+        </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

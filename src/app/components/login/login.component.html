@@ -1,0 +1,27 @@
+<div class="body">
+    <div class="container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header">
+                    <img width="150px" height="100px" src="../../../assets/img/logo_c.png" alt="">
+
+                </div>
+                <div class="card-body">
+                    <form (ngSubmit)="login(f)" #f="ngForm">
+                        <div class="input-group form-group">
+                            <input type="text" name="usu" [(ngModel)]="usuario.CLUsuario" class="form-control" placeholder="Usuario" required>
+                        </div>
+                        <div class="input-group form-group">
+                            <input type="password" name="pass" [(ngModel)]="usuario.CLContrasena" class="form-control" placeholder="Contraseña" required>
+                        </div>
+
+                        <div class="form-group" style="text-align: center">
+                            <input type="submit" value="Login" class="btn login_btn">
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

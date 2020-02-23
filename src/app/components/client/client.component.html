@@ -1,0 +1,110 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Regístro de clientes</h4>
+                        <p class="card-category">Ingrese su información</p>
+                    </div>
+                    <div class="card-body">
+                        <form (ngSubmit)="guardar(f)" #f="ngForm">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput type="number" name="id" [(ngModel)]="client.CLIdClient" placeholder="Digite su numero de identificación" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput type="text" name="nombres" [(ngModel)]="client.CLNombres" placeholder="Nombres del cliente " required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="apellidos" [(ngModel)]="client.CLApellidos" placeholder="Apellidos del cliente" type="text" required>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="tel" [(ngModel)]="client.CLTelefono" placeholder="Numero de contacto" type="number" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-8">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="correo" [(ngModel)]="client.CLCorreo" placeholder="E-mail" type="email" required>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- <div class="col-md-4">
+                                    <div class="example-full-width">
+                                        <select type="number" class="form-control" name="city" [(ngModel)]="city" required>
+                                            <option value="null">Seleccione la ciudad </option>
+                                            <option *ngFor="let itemcity of cities" [ngValue]="itemcity">{{itemcity.CTNombre}}</option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="usu" [(ngModel)]="client.CLUsuario" placeholder="Usuario" type="text" required>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="pass" [(ngModel)]="client.CLContrasena" placeholder="Contraseña" type="password" required>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="repass" [(ngModel)]="repeatpass" placeholder="Digite de nuevo la contraseña" type="password" required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- <button mat-raised-button class="btn btn-info pull-right btngeneric">Limpiar</button> -->
+                            <i mat-raised-button class="btn btn-info pull-right" (click)="clear()" style="width: auto">Limpiar</i>
+                            <button mat-raised-button type="submit" class="btn btn-success pull-right btngeneric">Crear</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- <dx-data-grid height="600" [dataSource]="clients" showBorders="true" [rowAlternationEnabled]="true">
+
+            <dxo-paging [pageSize]="10"></dxo-paging>
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]"></dxo-pager>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+             <dxo-group-panel [visible]="true"></dxo-group-panel> 
+            <dxo-scrolling mode="virtual"></dxo-scrolling>
+            <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+ -->
+        <dx-data-grid id="gridContainer" [dataSource]="clients" [remoteOperations]="false" [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true">
+
+            <dxo-paging [pageSize]="10"></dxo-paging>
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]"></dxo-pager>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+            <dxi-column dataField="CLIdClient" caption="Documento"></dxi-column>
+            <dxi-column dataField="CLNombres" caption="Nombre" sortOrder="asc"></dxi-column>
+            <dxi-column dataField="CLApellidos" caption="Apellidos"></dxi-column>
+            <dxi-column dataField="CLCorreo" caption="Email"></dxi-column>
+            <dxi-column dataField="CLUsuario" caption="Nombre de Usuario"></dxi-column>
+            <dxi-column dataField="SCNombre" caption="Suscripción Actual"></dxi-column>
+            <dxi-column dataField="CSFechaFin" caption="Fecha Fin Suscripción" dataType="date"></dxi-column>
+        </dx-data-grid>
+    </div>
+</div>
