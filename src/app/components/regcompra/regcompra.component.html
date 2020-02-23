@@ -14,6 +14,7 @@
                     <dx-number-box
                     [showClearButton]="true"
                     placeholder="Nit proveedor" valueChangeEvent="keyup"                    
+                    (onFocusOut)="loadProveedor(mProveedor.TRId)"
                       format="###################"
                       ></dx-number-box>
                 </div>
@@ -72,8 +73,7 @@
                   <div class="dx-field">
                     <div class="dx-field-label">Cant.</div>
                     <div class="dx-field-value">
-                      <dx-number-box    
-                      (onFocusOut)="calcularTotal()"
+                      <dx-number-box
                       [(value)]="mCant"
                       format="##########"
                       ></dx-number-box>
@@ -84,8 +84,7 @@
                   <div class="dx-field">
                     <div class="dx-field-label">Precio Uni.</div>
                     <div class="dx-field-value">
-                      <dx-number-box                      
-                        (onFocusOut)="calcularIva()"
+                      <dx-number-box
                         [(value)]="mProdcuto.PRPrecio"
                         format="$ #,##0.##"
                       ></dx-number-box>

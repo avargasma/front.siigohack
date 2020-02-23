@@ -13,22 +13,12 @@ export class ProductoService {
 
   constructor(private http: HttpClient) { }
 
-  public insertProducto(prod: ProductoModel): Observable<ResultModel> {
-    return this.http.post<ResultModel>(`${environment.apiUrl}Product/insert`, JSON.stringify(prod));     
+  public getProductoById(pIdProd: number): Observable<ResultModel> {
+    return this.http.get<ResultModel>(`${environment.apiUrl}Producto/GetById?pIdProd=${pIdProd}`);     
   }
 
-  public updateProducto(prod: ProductoModel): Observable<ResultModel> { 
-    return this.http.post<ResultModel>(`${environment.apiUrl}Product/update`, JSON.stringify(prod));     
+  public getProductosByFilter(pValorBusqueda: string): Observable<ResultModel> {
+    return this.http.get<ResultModel>(`${environment.apiUrl}Producto/Autocomplete?pValorBusqueda=${pValorBusqueda}`);     
   }
-
-  public getProductoById(prod: ProductoModel): Observable<ResultModel> {
-    return this.http.post<ResultModel>(`${environment.apiUrl}Product/getbyid`, JSON.stringify(prod));     
-  }
-
-  public getProductos(): Observable<ResultModel> {    
-    return this.http.get<ResultModel>(`${environment.apiUrl}Product/`);
-  }
-
-  
 
 }

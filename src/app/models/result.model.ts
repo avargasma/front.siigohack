@@ -1,7 +1,5 @@
-export class ResultModel {
-    resultado:string;
-    mensaje: string;
-    token: string;
-    expired: boolean;
-    entity: any[];
+export class ResultModel {    
+    datos:any[];
+    exitodo:Boolean;
+    error: string    
 }

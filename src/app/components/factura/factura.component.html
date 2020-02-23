@@ -32,7 +32,8 @@
                 <div class="col-md-8">
                   <dx-autocomplete placeholder="Digite cualquier parametro de búsqueda"                    
                     [(value)]="mProdcuto.PRNombre" [dataSource]="mProductosFilter"
-                    #txtProdName
+                    [minSearchLength]="2"
+                    [searchTimeout]="500"
                     (onValueChanged)="loadProducto(mProdcuto.PRNombre)">
                   </dx-autocomplete>
                 </div>

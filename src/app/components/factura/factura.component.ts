@@ -6,6 +6,7 @@ import { FacturaDetalleModel, FacturaDetalleModelFactuacion } from 'app/models/f
 import { ClienteModel } from 'app/models/cliente/cliente.model';
 import { ProductoModel, ProductoModelFactura } from 'app/models/producto/producto.model';
 import { DxTextBoxComponent } from 'devextreme-angular';
+import { TerceroService } from 'app/services/tercero.service';
 
 @Component({
   selector: 'app-factura',
@@ -22,8 +23,10 @@ export class FacturaComponent implements OnInit {
   mCant = 0;
   mTotal = 0;
   mCalculoIva = 0;
+  nomprod = '';
 
   constructor(private productoService: ProductoService,
+    private terceroService: TerceroService,
     private notify: NotificationsService) { }
 
   ngOnInit() {
@@ -36,34 +39,37 @@ loadClient(pIdClient){
   if (pIdClient == '' || pIdClient == undefined) {
     this.cleanCliente();
   }else{
-    this.mCliente.TRPNombre = 'Arlington';
-    this.mCliente.TRPApellido = 'Vargas';
-  }
-  
-   /*  this.productoService.getProductos().subscribe(
+     this.terceroService.getClienteById(pIdClient).subscribe(
         result=>{
-          console.log(result);
+          if (result.datos == null || result.datos.length <= 0) {
+            this.notify.showNotification('top','center',`'El cliente con id ${pIdClient} no existe`, 4);
+            return;
+          }
+          this.mCliente.TRPNombre = result.datos['trpNombre'];
+          this.mCliente.TRPApellido = result.datos['TRPApellido'];
         }
-     )*/
+     );    
+  }
 }
 
 loadProducto(pFilter){
   if (pFilter == '' || pFilter == undefined) {
     this.cleanProducto();
   }else{
-    this.mProdcuto.PRNombre = 'Arroz';
+    this.productoService.getProductosByFilter(pFilter).subscribe(
+      result=>{
+        this.mProductosFilter = result.datos;
+      }
+   )
+
+    /* this.mProdcuto.PRNombre = 'Arroz';
     this.mProdcuto.PRId = 1;
     this.mProdcuto.SaldoGeneral = 10;
     this.mProdcuto.SaldoSucursal = 6;
     this.mProdcuto.PorcentajeIva = 19;
     this.mProdcuto.PRImpuesto = 1;
-    this.mCalculoIva = (this.mProdcuto.PRPrecio * this.mProdcuto.PorcentajeIva) / 100;
-  }    
-   /*  this.productoService.getProductos().subscribe(
-        result=>{
-          console.log(result);
-        }
-     )*/
+    this.mCalculoIva = (this.mProdcuto.PRPrecio * this.mProdcuto.PorcentajeIva) / 100; */
+  } 
 }
 // #endconsultas
   
